@@ -53,7 +53,7 @@ if check_password():
         os.chdir(os.path.join(os.path.dirname(__file__), "CDPOP", "src"))
         
         # Run the CDPOP script with input and output file paths
-        os.system(f"python CDPOP.py {input_file_path} {output_file_path}")
+        os.system(f"python CDPOP.py {input_file_path} {output_file_path} sampleoutput.csv")
 
     def main():
         
