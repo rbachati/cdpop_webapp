@@ -105,7 +105,7 @@ if check_password():
             editable_df.rename(columns=new_col_names, inplace=True)
 
             # Use the experimental data editor
-            edited_df = st.experimental_data_editor(editable_df, num_rows="dynamic", key="data_editor")
+            edited_df = st.data_editor(editable_df, num_rows="dynamic", key="data_editor")
 
             # Handle any changes made in the data editor
             if st.session_state.data_editor:
