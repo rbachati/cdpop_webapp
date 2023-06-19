@@ -1,5 +1,6 @@
 # streamlit_app.py
 from streamlit_authenticator import check_password
+from streamlit_multipage import MultiPage
 import streamlit as st
 from ipysheet import from_dataframe, to_dataframe
 import ipysheet
@@ -9,7 +10,7 @@ import os
 
 # Set the title of the app
 st.set_page_config(page_title="CDPOP Simulation Model", page_icon=":bar_chart:", layout="wide")
-st.title("CDPOP Simulation Model")
+st.title("LandScape Genetics (CDPOP)")
         
 def check_password():
     """Returns `True` if the user had a correct password."""
@@ -53,7 +54,7 @@ if check_password():
         os.chdir(os.path.join(os.path.dirname(__file__), "CDPOP", "src"))
         
         # Run the CDPOP script with input and output file paths
-        os.system(f"python CDPOP.py {input_file_path} {output_file_path} sampleoutput.csv")
+        os.system(f"python CDPOP.py {input_file_path} {output_file_path}")
 
     def main():
         
@@ -75,6 +76,17 @@ if check_password():
             "Fdispmovethresh",
             "Mdispmovethresh",
         ]
+        
+        # Define new column names
+        new_col_names = {
+            "xyfilename": "XY Locations file",
+            "output_years": "generations/years of saved genotypes",
+            "output_unicor": "xy locations for output years",
+            "dispcdmat": "dispersal cost distance matrix",
+            "matemovethresh": "mating distance threshold",
+            "Fdispmovethresh": "Female Dispersion Threshold",
+            "Mdispmovethresh": "Male Dispersion Threshold",
+        }
 
         # If input file is specified, load and edit the input CSV file
         if 'input_df' in locals():
@@ -89,12 +101,17 @@ if check_password():
             st.header("Edit input parameter file")
             # Make a copy of your dataframe with only the columns you want to be editable
             editable_df = input_df[editable_cols].copy()
+            
+            #Rename the columns
+            editable_df.rename(columns=new_col_names, inplace=True)
 
             # Use the experimental data editor
             edited_df = st.experimental_data_editor(editable_df, num_rows="dynamic", key="data_editor")
 
             # Handle any changes made in the data editor
             if st.session_state.data_editor:
+                # Convert the new column names back to the original names
+                edited_df.rename(columns={v: k for k, v in new_col_names.items()}, inplace=True)
                 # Update the original dataframe with the changes made in the data editor
                 input_df.update(edited_df)
 
