@@ -1,6 +1,5 @@
 # streamlit_app.py
 from streamlit_authenticator import check_password
-from streamlit_multipage import MultiPage
 import streamlit as st
 from ipysheet import from_dataframe, to_dataframe
 import ipysheet
