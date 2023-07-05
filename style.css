@@ -1,0 +1,55 @@
+/* Centered and colored title */
+h1 {
+    color: #3498db;
+    text-align: center;
+    font-size: 5em;
+}
+
+/* Quote styling */
+blockquote {
+    color: #050606;
+    text-align: center;
+    font-size: 3em;
+    font-style: italic;
+}
+
+
+body {
+    color: #fff;
+    background-color: #f4f6f9;
+}
+p {
+    background-image: url(background.jpg’);
+   }
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-image: url('background.jpg');
+    background-size: cover;
+    filter: blur(8px);
+    z-index: -1;
+}
+
+.quote {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2em;
+    width: 50%;
+    text-align: center;
+    color: white;
+}
+
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #1a5276;
+    text-decoration: underline;
+}
