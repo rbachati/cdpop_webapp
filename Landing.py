@@ -1,12 +1,17 @@
 import streamlit as st
+import base64
 
 # Set page config
 st.set_page_config(
     page_title="COLA",
     page_icon="🌍",
     layout="centered",
+    initial_sidebar_state="collapsed"
 )
 
+with open("./style.css") as f:
+    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+    
 # Page title
 st.title("COLA")
 
@@ -42,9 +47,25 @@ st.markdown(
     """
 )
 
+def add_bg_from_local(image_file):
+    with open(image_file, "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read())
+    st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        background-image: url(data:image/{"jpg"};base64,{encoded_string.decode()});
+        background-size: cover
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+    )
+add_bg_from_local('./images/background.jpg')
+
 row1_col1, row1_col2 = st.columns(2)
 with row1_col1:
-    st.image("./background.jpg")
+    st.image("./images/kavango.gif")
     st.image("./200.webp", use_column_width=True)
 
 with row1_col2:
@@ -57,12 +78,9 @@ st.markdown(
     """
     ---
     ##### Explore More
-    - [About Us](#)
+    - [AUthor/Team Section](#)
     - [Our Mission](#)
     - [Contact Us](#)
     - [Source Repository](https://github.com/rbachati/cdpop_webapp)
     """,
 )
-
-with open("style.css") as f:
-    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
