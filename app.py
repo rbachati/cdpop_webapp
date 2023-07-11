@@ -6,6 +6,7 @@ import ipysheet
 import streamlit as st
 import pandas as pd
 import os
+import glob
 
 # Set the title of the app
 st.set_page_config(page_title="CDPOP Simulation Model", page_icon=":bar_chart:", layout="wide")
@@ -90,7 +91,29 @@ if streamlit_authenticator.check_password():
             if st.button("Run"):
                 with st.spinner('Running CDPOP...'):
                     run_cdpop(input_path, output_folder)
-                st.write(f"Done running CDPOP. The output was saved in the folder {output_folder} in the data directory.")
+                st.success(f"Done running CDPOP. The output was saved in the folder {output_folder} in the data directory.")
+                
+            if st.sidebar.button("List Output Files"):
+                # Parent directory
+                data_dir = os.path.join(os.path.dirname(__file__), "CDPOP", "data")
+
+                # Find all matching directories
+                matching_dirs = glob.glob(os.path.join(data_dir, output_folder + "*"))
+
+                if matching_dirs:  # if list is not empty
+                    # Collect all file names
+                    all_files = []
+                    for dir in matching_dirs:
+                        files = os.listdir(dir)
+                        for file in files:
+                            all_files.append(f"{dir}: {file}")
+
+                    # Display the files in a dropdown in the sidebar
+                    selected_file = st.sidebar.selectbox("Select an Output File:", all_files)
+                    st.sidebar.write(f"You selected: {selected_file}")
+                else:
+                    st.sidebar.write(f"No output directories starting with {output_folder} found.")
+
 
     if __name__ == "__main__":
         main()
